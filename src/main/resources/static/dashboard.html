@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Nexus Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="logo"><div class="logo-mark">N</div> Nexus Admin</div>
+    <nav class="nav">
+      <button class="active" data-view="overview"><span data-icon="grid"></span> Overview</button>
+      <button data-view="users"><span data-icon="users"></span> Users</button>
+    </nav>
+    <div class="side-user">
+      <div class="avatar sm" id="meAvatar"></div>
+      <div class="meta"><b id="meName"></b><span id="meRole"></span></div>
+      <button class="icon-btn" id="logoutBtn" title="Sign out"><span data-icon="logout"></span></button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menuBtn"><span data-icon="menu"></span></button>
+      <h1 id="pageTitle">Overview</h1>
+      <button class="btn admin-only" id="topAddBtn"><span data-icon="plus"></span> Add user</button>
+    </header>
+
+    <div class="content">
+      <section id="view-overview">
+        <div class="welcome">
+          <h2 id="welcomeText">Welcome back</h2>
+          <p>Here is what is happening with your users today.</p>
+        </div>
+        <div class="stats">
+          <div class="card stat"><div class="ico"><span data-icon="users"></span></div><div><div class="num" id="sTotal">0</div><div class="lbl">Total users</div></div></div>
+          <div class="card stat"><div class="ico g"><span data-icon="check"></span></div><div><div class="num" id="sActive">0</div><div class="lbl">Active users</div></div></div>
+          <div class="card stat"><div class="ico r"><span data-icon="power"></span></div><div><div class="num" id="sInactive">0</div><div class="lbl">Inactive users</div></div></div>
+          <div class="card stat"><div class="ico a"><span data-icon="shield"></span></div><div><div class="num" id="sAdmin">0</div><div class="lbl">Administrators</div></div></div>
+        </div>
+        <div class="grid2">
+          <div class="card panel"><h3>Recently added</h3><ul class="recent" id="recentList"></ul></div>
+          <div class="card panel">
+            <h3>Overview</h3>
+            <div class="bar-row"><div class="top"><span>Active accounts</span><b id="pActive">0%</b></div><div class="bar"><i class="g" id="barActive" style="width:0"></i></div></div>
+            <div class="bar-row"><div class="top"><span>Administrators</span><b id="pAdmin">0%</b></div><div class="bar"><i id="barAdmin" style="width:0"></i></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-users" hidden>
+        <div class="card">
+          <div class="toolbar">
+            <div class="search"><span data-icon="search"></span><input id="fSearch" placeholder="Search by name or email"></div>
+            <select id="fStatus"><option value="">All status</option><option value="ACTIVE">Active</option><option value="INACTIVE">Inactive</option></select>
+            <select id="fRole"><option value="">All roles</option><option value="ADMIN">Admin</option><option value="USER">User</option></select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>User</th><th>Phone</th><th>Role</th><th>Status</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody id="userRows"></tbody>
+            </table>
+          </div>
+          <div class="empty" id="emptyState" hidden>No users found.</div>
+          <div class="pager"><span id="pagerInfo"></span><div><button class="btn ghost" id="prevBtn">Previous</button><button class="btn ghost" id="nextBtn">Next</button></div></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="userModal">
+  <div class="modal-card">
+    <div class="modal-head"><h3 id="modalTitle">Add user</h3><button class="icon-btn" data-close><span data-icon="x"></span></button></div>
+    <form id="userForm" novalidate>
+      <div class="modal-body form-grid">
+        <div class="field full"><label for="fName">Full name</label><input id="fName"><div class="fe" id="fe-name"></div></div>
+        <div class="field full"><label for="fEmail">Email</label><input id="fEmail" type="email"><div class="fe" id="fe-email"></div></div>
+        <div class="field"><label for="fPhone">Phone</label><input id="fPhone" placeholder="Optional"><div class="fe" id="fe-phone"></div></div>
+        <div class="field" id="pwField"><label for="fPassword">Password</label><input id="fPassword" type="password" placeholder="Min 6 characters"><div class="fe" id="fe-password"></div></div>
+        <div class="field"><label for="fFormRole">Role</label><select id="fFormRole"><option value="USER">User</option><option value="ADMIN">Admin</option></select><div class="fe" id="fe-role"></div></div>
+        <div class="field"><label for="fFormStatus">Status</label><select id="fFormStatus"><option value="ACTIVE">Active</option><option value="INACTIVE">Inactive</option></select><div class="fe" id="fe-status"></div></div>
+      </div>
+      <div class="modal-foot"><button type="button" class="btn ghost" data-close>Cancel</button><button type="submit" class="btn" id="saveBtn">Save</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="deleteModal">
+  <div class="modal-card sm">
+    <div class="modal-head"><h3>Delete user</h3><button class="icon-btn" data-close><span data-icon="x"></span></button></div>
+    <div class="modal-body"><p id="deleteText"></p></div>
+    <div class="modal-foot"><button class="btn ghost" data-close>Cancel</button><button class="btn danger" id="confirmDelete">Delete</button></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
